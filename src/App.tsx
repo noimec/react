@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
 
-function App() {
+export function App() {
+  const [posts, setPosts] = useState([
+    {id: 1, title: 'Javascript1', body: 'Description1'},
+    {id: 2, title: 'Javascript2', body: 'Description2'},
+    {id: 3, title: 'Javascript3', body: 'Description3'},
+  ])
+
+  const [title, setTitle] = useState('asd');
+
+  // const addnewPost = () => {
+    
+  // }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form>
+        <MyInput //управляемый компонент
+        value={title}
+        onChange={e => setTitle(e.target.value)}
+        type="text" 
+        placeholder="Название поста"
+        />
+        <MyInput type="text" placeholder="Описание поста"/>
+        <MyButton disabled>Создать пост</MyButton>
+      </form>
+     <PostList posts={posts} title='Список постов 1'/>
     </div>
   );
 }
-
-export default App;
