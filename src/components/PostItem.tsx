@@ -3,13 +3,14 @@ import { Post } from "../App";
 
 interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   post: Post
+  number: number
 }
 
-export const Postitem = ({ post }: Props) => {
+export const Postitem = ({ post, number }: Props) => {
   return (
     <div className="post">
       <div className="post__content">
-        <strong>{post.id}. {post.title}</strong>
+        <strong>{number}. {post.title}</strong>
         <div>
           {post.body}
         </div>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './styles/App.css';
-import { MyButton } from './components/UI/button/MyButton';
 import { PostList } from './components/PostList';
-import { MyInput } from './components/UI/input/MyInput';
+import { PostForm } from './components/PostForm';
 
 export interface Post {
   id: number;
@@ -17,24 +16,14 @@ export function App() {
     { id: 3, title: 'Javascript3', body: 'Description3' },
   ])
 
-  const [title, setTitle] = useState('title');
-
-  const addNewPost = (e: React.SyntheticEvent): void => e.preventDefault();
+  const createPost = (newPost: Post) => {
+    setPosts([...posts, newPost])
+  }
 
   return (
     <div className="App">
-      <form>
-        <MyInput //управляемый компонент
-          value={title}
-          label='asdas'
-          onChange={e => setTitle(e.target.value)}
-          type="text"
-          placeholder="Название поста"
-        />
-        <MyInput type="text" placeholder="Описание поста" />
-        <MyButton onClick={addNewPost}>Создать пост</MyButton>
-      </form>
-      <PostList posts={posts} title='Список постов 1' />
+      <PostForm create={createPost} />
+      <PostList posts={posts} title='Title list' />
     </div>
   );
 }

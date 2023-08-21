@@ -5,8 +5,8 @@ interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLIn
     label?: string
 }
 
-export const MyInput = (props: Props) => {
+export const MyInput = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
     return (
-        <label>{props.label} <input {...props} className={classes.myInput} /></label>
+        <label>{props.label} <input ref={ref} {...props} className={classes.myInput} /></label>
     )
-}
+})
