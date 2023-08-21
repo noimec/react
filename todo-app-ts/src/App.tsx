@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './styles/App.css';
 import { PostList } from './components/PostList';
 import { PostForm } from './components/PostForm';
+import { MySelect } from './components/UI/select/MySelect';
 
 export interface Post {
   id: number;
@@ -20,10 +21,25 @@ export function App() {
     setPosts([...posts, newPost])
   }
 
+  const removePost = (post: Post) => {
+    setPosts(posts.filter(p => p.id !== post.id))
+  }
+
   return (
     <div className="App">
       <PostForm create={createPost} />
-      <PostList posts={posts} title='Title list' />
+      <hr style={{ margin: '15px 0' }} />
+      <MySelect
+        defaultValue='sorted by'
+        options={[
+          { value: 'title', name: 'by name' },
+          { value: 'body', name: 'by description' },
+        ]}
+      />
+      {posts.length !== 0
+        ? <PostList posts={posts} remove={removePost} title='Title list' />
+        : <h1>Posts is empty</h1>
+      }
     </div>
   );
 }

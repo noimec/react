@@ -1,12 +1,14 @@
 import React from "react";
 import { Post } from "../App";
+import { MyButton } from "./UI/button/MyButton";
 
 interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   post: Post
   number: number
+  remove: (value: Post) => void
 }
 
-export const Postitem = ({ post, number }: Props) => {
+export const Postitem = ({ post, number, remove }: Props) => {
   return (
     <div className="post">
       <div className="post__content">
@@ -16,7 +18,7 @@ export const Postitem = ({ post, number }: Props) => {
         </div>
       </div>
       <div className="post__btn">
-        <button>Delete</button>
+        <MyButton onClick={() => remove(post)}>Delete</MyButton>
       </div>
     </div>
   )
