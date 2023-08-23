@@ -3,9 +3,9 @@ import { Postitem } from "./PostItem";
 import { Post } from "../App";
 
 interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  posts: Post[]
-  title: string
-  remove: (value: Post) => void
+  posts: Post[];
+  title: string;
+  remove: (value: Post) => void;
 }
 
 export const PostList = ({ posts, title, remove }: Props) => {

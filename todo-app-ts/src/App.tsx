@@ -17,12 +17,21 @@ export function App() {
     { id: 3, title: 'Javascript3', body: 'Description3' },
   ])
 
+  const [selectedSort, setSelectedSort] = useState('');
+
+  const sortPosts = (sort: keyof Post) => {
+    console.log(sort);
+
+    setSelectedSort(sort);
+    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])));
+  }
+
   const createPost = (newPost: Post) => {
-    setPosts([...posts, newPost])
+    setPosts([...posts, newPost]);
   }
 
   const removePost = (post: Post) => {
-    setPosts(posts.filter(p => p.id !== post.id))
+    setPosts(posts.filter(p => p.id !== post.id));
   }
 
   return (
@@ -30,6 +39,8 @@ export function App() {
       <PostForm create={createPost} />
       <hr style={{ margin: '15px 0' }} />
       <MySelect
+        value={selectedSort}
+        onChange={sortPosts}
         defaultValue='sorted by'
         options={[
           { value: 'title', name: 'by name' },

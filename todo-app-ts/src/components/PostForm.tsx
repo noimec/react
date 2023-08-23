@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { MyInput } from './UI/input/MyInput'
-import { MyButton } from './UI/button/MyButton'
+import React, { useState } from 'react';
+import { MyInput } from './UI/input/MyInput';
+import { MyButton } from './UI/button/MyButton';
 import { Post } from '../App';
 
 export const PostForm = ({ create }: { create: (value: Post) => void }) => {

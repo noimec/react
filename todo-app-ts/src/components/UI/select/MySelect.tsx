@@ -1,23 +1,30 @@
-import React from 'react';
+import { FC } from 'react';
 
-type Option = {
-    value: string
-    name: string
-}[]
-
-interface Select extends React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> {
-    options: Option
-    defaultValue: string
+interface Option {
+    value: string;
+    name: string;
 }
 
-export const MySelect = ({ options, defaultValue }: Select) => {
+interface Select {
+    options: Option[];
+    defaultValue: string;
+    value: string;
+    onChange: (e: string) => void;
+}
+
+export const MySelect: FC<Select> = ({ options, defaultValue, value, onChange }) => {
     return (
-        <select>
+        <select
+            value={value}
+            onChange={e => onChange(e.target.value)}
+        >
             <option disabled value="val1">{defaultValue}</option>
             {options.map(option => {
-                <option key={option.value} value={option.value}>
-                    {option.name}
-                </option>
+                return (
+                    <option key={option.value} value={option.value}>
+                        {option.name}
+                    </option>
+                )
             })}
         </select>
     )
