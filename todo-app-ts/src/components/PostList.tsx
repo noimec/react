@@ -9,6 +9,13 @@ interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
 }
 
 export const PostList = ({ posts, title, remove }: Props) => {
+
+  if (!posts.length) {
+    return (
+      <h1>Posts is empty</h1>
+    )
+  }
+
   return (
     <div>
       <h1 style={{ textAlign: 'center' }}>{title}</h1>
