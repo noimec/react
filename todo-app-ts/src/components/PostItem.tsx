@@ -1,18 +1,17 @@
 import React from "react";
-import { Post } from "../App";
 import { MyButton } from "./UI/button/MyButton";
+import { Post } from "../pages/Posts";
 
 interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   post: Post;
-  number: number;
   remove: (value: Post) => void;
 }
 
-export const Postitem = ({ post, number, remove }: Props) => {
+export const Postitem = ({ post, remove }: Props) => {
   return (
     <div className="post">
       <div className="post__content">
-        <strong>{number}. {post.title}</strong>
+        <strong>{post.id}. {post.title}</strong>
         <div>
           {post.body}
         </div>

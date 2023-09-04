@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MyInput } from './UI/input/MyInput';
 import { MyButton } from './UI/button/MyButton';
-import { Post } from '../App';
+import { Post } from '../pages/Posts';
 
 export const PostForm = ({ create }: { create: (value: Post) => void }) => {
     const [post, setPost] = useState({ title: '', body: '' });

@@ -1,57 +1,22 @@
-import { useState } from 'react';
+import { Link, Route, Routes } from 'react-router-dom';
 import './styles/App.css';
-import { PostList } from './components/PostList';
-import { PostForm } from './components/PostForm';
-import { PostFilter } from './components/PostFilter';
-import { MyModal } from './components/UI/modal/MyModal';
-import { MyButton } from './components/UI/button/MyButton';
-import { usePosts } from './hooks/usePosts';
-import axios from 'axios';
-
-export interface Post {
-  id: number;
-  title: string;
-  body: string;
-}
+import { About } from './pages/About';
+import { Posts } from './pages/Posts';
 
 export function App() {
-  const [posts, setPosts] = useState<Post[]>([]);
-
-  const [filter, setFilter] = useState({ sort: '', query: '' });
-
-  const [modal, setModal] = useState(false);
-
-  const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-
-  const createPost = (newPost: Post) => {
-    setPosts([...posts, newPost]);
-    setModal(false);
-  }
-
-  const fetchPosts = async () => {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-    setPosts(response.data)
-  }
-
-  const removePost = (post: Post) => {
-    setPosts(posts.filter(p => p.id !== post.id));
-  }
-
   return (
-    <div className="App">
-      <MyButton onClick={fetchPosts}>Get posts</MyButton>
-      <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)}>
-        Create post
-      </MyButton>
-      <hr style={{ margin: '15px 0' }} />
-      <MyModal visible={modal} setVisible={setModal}>
-        <PostForm create={createPost} />
-      </MyModal>
-      <PostFilter
-        filter={filter}
-        setFilter={setFilter}
-      />
-      <PostList posts={sortedAndSearchedPosts} remove={removePost} title='Title list' />
+    <div>
+      <div className='navbar'>
+        <div className='navbar__links'>
+          <Link to="/about">About</Link>
+          <Link to="/posts">Posts list</Link>
+        </div>
+      </div>
+      <Routes>
+        <Route path="about" element={<About />} />
+        <Route path="posts" element={<Posts />} />
+      </Routes>
     </div>
+
   )
 }

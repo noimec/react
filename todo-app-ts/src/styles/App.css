@@ -6,7 +6,8 @@
 
 #root {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .App {
@@ -38,4 +39,37 @@
 .post-exit-active {
     transform: translateX(-350px);
     transition: all 500ms ease-in;
+}
+
+.page__wrapper {
+    display: flex;
+    margin-top: 30px;
+}
+
+.page {
+    padding: 10px;
+    border: 1px solid teal;
+    cursor: pointer;
+}
+
+.page__current {
+    border: 2px solid orange;
+    font-weight: bold;
+}
+
+.page:not(:last-child) {
+    margin-right: 10px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    padding: 0 15px;
+    background-color: lightgray;
+}
+
+.navbar__links{
+    margin-left: auto;
 }
