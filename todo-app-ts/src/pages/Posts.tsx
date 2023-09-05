@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../styles/App.css';
 import { usePosts } from '../hooks/usePosts';
 import { useFetching } from '../hooks/useFetching';
@@ -11,7 +11,8 @@ import { PostFilter } from '../components/PostFilter';
 import { Loader } from '../components/UI/Loader/Loader';
 import { PostList } from '../components/PostList';
 import { Pagination } from '../components/UI/pagination/Pagination';
-
+import { useObserver } from '../hooks/useObserver';
+import { MySelect } from '../components/UI/select/MySelect';
 
 export interface Post {
     id: number;
@@ -27,13 +28,18 @@ export const Posts = () => {
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+    const lastElement = useRef<HTMLDivElement>(null);
 
     const [fetchPosts, isPostsLoading, postError] = useFetching(async (limit, page) => {
         const response = await PostService.getAll(limit, page);
         const totalCount = response.headers['x-total-count'];
 
-        setPosts(response.data);
+        setPosts([...posts, ...response.data]);
         setTotalPages(getPagesCount(totalCount, limit));
+    })
+
+    useObserver(lastElement, page < totalPages, isPostsLoading, () => {
+        setPage(page + 1);
     })
 
     useEffect(() => {
@@ -42,7 +48,7 @@ export const Posts = () => {
         } else {
             console.error(postError);
         }
-    }, [])
+    }, [page, limit])
 
     const createPost = (newPost: Post) => {
         setPosts([...posts, newPost]);
@@ -55,11 +61,6 @@ export const Posts = () => {
 
     const changePage = (page: number) => {
         setPage(page)
-        if (typeof fetchPosts === 'function') {
-            fetchPosts(limit, page);
-        } else {
-            console.error(postError);
-        }
     }
 
     return (
@@ -75,11 +76,20 @@ export const Posts = () => {
                 filter={filter}
                 setFilter={setFilter}
             />
+            <MySelect
+                value={String(limit)}
+                onChange={value => setLimit(parseInt(value))}
+                options={[
+                    {value: "5", name:'5'},
+                    {value: "10", name:'10'},
+                    {value: "-1", name:'Open all'}
+                ]}
+                defaultValue={'Number of elements'}
+            />
             {postError && typeof postError === "string" && <h1>Error {postError}</h1>}
-            {isPostsLoading
-                ? <Loader />
-                : <PostList posts={sortedAndSearchedPosts} remove={removePost} title='Title list' />
-            }
+            <PostList posts={sortedAndSearchedPosts} remove={removePost} title='Title list' />
+            <div ref={lastElement} style={{ height: '1px', background: 'transparent' }} />
+            {isPostsLoading && <Loader />}
             <Pagination page={page} changePage={changePage} totalPages={totalPages} />
         </div>
     )

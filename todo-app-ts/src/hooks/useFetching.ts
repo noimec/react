@@ -17,3 +17,21 @@ export const useFetching = (callback: { (limit: number, page: number): Promise<v
 
     return [fetching, isLoading, error]
 }
+
+export const useFetchingId = (callback: { (id: string): Promise<void> }) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    const fetching = async (...args: [string]) => {
+        try {
+            setIsLoading(true);
+            await callback(...args);
+        } catch (error: any) {
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return [fetching, isLoading, error]
+}
